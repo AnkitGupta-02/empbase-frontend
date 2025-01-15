@@ -17,9 +17,6 @@ const response = await axios.post(`${baseURL}/admin/login`, data,{
 export const fetchAdmin = async () => {
   const response = await axios.get(`${baseURL}/admin/profile`, {
     withCredentials: true,
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 
   return response.data;
