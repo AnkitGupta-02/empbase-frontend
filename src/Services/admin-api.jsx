@@ -14,12 +14,18 @@ export const createAdmin = async (adminData) => {
 export const loginAdmin = async (data) => {
   await axios.post(`${baseURL}/admin/login`, data, {
     withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 };
 
 export const fetchAdmin = async () => {
   const response = await axios.get(`${baseURL}/admin/profile`, {
     withCredentials: true,
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   return response.data;
