@@ -8,9 +8,10 @@ export const createAdmin = async (adminData) => {
 };
 
 export const loginAdmin = async (data) => {
-  await axios.post(`${baseURL}/admin/login`, data,{
+const response = await axios.post(`${baseURL}/admin/login`, data,{
     withCredentials: true
   });
+  return response;
 };
 
 export const fetchAdmin = async () => {
