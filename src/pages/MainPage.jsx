@@ -35,7 +35,7 @@ function MainPage({setIsLoading}) {
       <Header>
         <Navbar data={data} />
       </Header>
-      <Routes>n
+      <Routes>
         <Route index element={<DashBoardTab />} />
         <Route path="/employee-list" element={<EmployeeTab />} />
         <Route path="/create-employee" element={<CreateEmployeeForm />} />
