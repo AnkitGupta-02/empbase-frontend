@@ -4,9 +4,6 @@ const baseURL =
 
 export const createAdmin = async (adminData) => {
   const response = await axios.post(`${baseURL}/admin/signup`, adminData,{
-    headers: {
-      'Content-Type': 'application/json'
-    }
   });
   return response;
 };
@@ -14,9 +11,6 @@ export const createAdmin = async (adminData) => {
 export const loginAdmin = async (data) => {
 const response = await axios.post(`${baseURL}/admin/login`, data,{
     withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json'
-    }
   });
   return response;
 };
@@ -24,9 +18,6 @@ const response = await axios.post(`${baseURL}/admin/login`, data,{
 export const fetchAdmin = async () => {
   const response = await axios.get(`${baseURL}/admin/profile`, {
     withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json'
-    }
   });
 
   return response.data;

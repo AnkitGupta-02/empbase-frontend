@@ -23,7 +23,7 @@ function LoginForm() {
     e.preventDefault();
     try {
       const response = await loginAdmin(value);
-      if (response.status === 204) {
+      if (response) {
         toast.success("Login Successful", { autoClose: 2000 });
       }
       navigate("/");
