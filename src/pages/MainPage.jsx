@@ -6,19 +6,23 @@ import Navbar from "../components/Header/Navbar/Navbar.jsx";
 import EmployeeTab from "../components/Tab/EmployeeTab.jsx";
 import DashBoardTab from "../components/Tab/DashBoardTab.jsx";
 import CreateEmployeeForm from "../components/Form/CreateEmployeeForm.jsx";
-
 import { fetchAdmin } from "../Services/admin-api.jsx";
 
-function MainPage() {
+function MainPage({setIsLoading}) {
   const navigate = useNavigate();
   const [data, setData] = useState({});
 
   const fetchData = useCallback(async () => {
     try {
+      setIsLoading(true);
       const admin = await fetchAdmin();
       setData(admin);
+      setIsLoading(false);
     } catch (err) {
-      if (err) navigate("/login");
+      if (err){
+        navigate("/login");
+        setIsLoading(false);
+      };
     }
   }, []);
 
@@ -31,7 +35,7 @@ function MainPage() {
       <Header>
         <Navbar data={data} />
       </Header>
-      <Routes>
+      <Routes>n
         <Route index element={<DashBoardTab />} />
         <Route path="/employee-list" element={<EmployeeTab />} />
         <Route path="/create-employee" element={<CreateEmployeeForm />} />
