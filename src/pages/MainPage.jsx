@@ -8,21 +8,18 @@ import DashBoardTab from "../components/Tab/DashBoardTab.jsx";
 import CreateEmployeeForm from "../components/Form/CreateEmployeeForm.jsx";
 import { fetchAdmin } from "../Services/admin-api.jsx";
 
-function MainPage({setIsLoading}) {
+function MainPage() {
   const navigate = useNavigate();
   const [data, setData] = useState({});
 
   const fetchData = useCallback(async () => {
     try {
-      setIsLoading(true);
       const admin = await fetchAdmin();
       setData(admin);
-      setIsLoading(false);
     } catch (err) {
-      if (err){
+      if (err) {
         navigate("/login");
-        setIsLoading(false);
-      };
+      }
     }
   }, []);
 
