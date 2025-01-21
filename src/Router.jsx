@@ -6,7 +6,6 @@ import LoginForm from "./components/Form/LoginForm";
 function Router() {
   return (
     <Routes>
-     
       <Route path="/*" element={<MainPage />} />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/signup" element={<SignupForm />} />

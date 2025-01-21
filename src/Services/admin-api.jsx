@@ -3,13 +3,12 @@ const baseURL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 
 export const createAdmin = async (adminData) => {
-  const response = await axios.post(`${baseURL}/admin/signup`, adminData,{
-  });
+  const response = await axios.post(`${baseURL}/admin/signup`, adminData, {});
   return response;
 };
 
 export const loginAdmin = async (data) => {
-const response = await axios.post(`${baseURL}/admin/login`, data,{
+  const response = await axios.post(`${baseURL}/admin/login`, data, {
     withCredentials: true,
   });
   return response;
@@ -21,4 +20,8 @@ export const fetchAdmin = async () => {
   });
 
   return response.data;
+};
+
+export const logout = async () => {
+  await axios.post(baseURL + "/admin/logout", {}, { withCredentials: true });
 };
