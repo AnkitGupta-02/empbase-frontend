@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-function Input({ type, name, value, onChange, placeholder, className }) {
+function Input({ type, name, value, onChange, placeholder, className,disabled }) {
 
   const finalclassName = classNames("px-4 py-2 border border-gray-300 w-full rounded-md focus:outline-none",className)
   return (
@@ -13,6 +13,7 @@ function Input({ type, name, value, onChange, placeholder, className }) {
         onChange={onChange}
         placeholder={placeholder}
         className={finalclassName}
+        disabled={disabled}
       />
     </div>
   )

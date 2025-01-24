@@ -1,39 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { GoChevronDown } from "react-icons/go";
 
-export default function Accordion({ list }) {
+export default function Accordion({ name, list, onChange, placeholder }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [value, setValue] = useState();
+  const [select, setSelect] = useState("");
+  const divEl = useRef();
 
-  const handleSelect = (item) => {
+ useEffect(()=>{
+  const handler = (event) => {
+    if(divEl.current && !divEl.current.contains(event.target)){
     setIsOpen(false);
-    setValue(item);
+    }
+   };
+  
+   document.addEventListener("click",handler,true);
+  
+   return () => {
+    document.removeEventListener("click",handler);
+   };
+ },[]);
+
+  const onSelect = (item) => {
+    setIsOpen(false);
+    setSelect(item);
+    onChange(name, item);
   };
 
   function AccordionItem({ label, onClick }) {
-    return <div  className="px-3 py-2 cursor-pointer hover:bg-neutral-200" onClick={onClick}>{label}</div>;
+    return (
+      <div
+        className="px-3 py-2 cursor-pointer hover:bg-neutral-200"
+        onClick={onClick}
+      >
+        {label}
+      </div>
+    );
   }
 
   const renderList = list.map((item) => {
     return (
       <AccordionItem
-        onClick={() => handleSelect(item)}
+        onClick={() => onSelect(item)}
         key={item.label}
         {...item}
       />
     );
   });
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
   return (
-    <div className="relative select-none ">
-      <div onClick={handleClick} className="flex items-center w-full px-3 py-1 text-lg border rounded-md ">
-        <div className="w-full pr-2 ">{value?.label || "Select..."}</div>
-        <GoChevronDown />
+    <div ref={divEl} className="relative select-none ">
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center w-full px-2 text-lg border border-gray-300 rounded-md"
+      >
+        <input placeholder={placeholder} value={select?.label} className="w-full py-1.5 bg-white outline-none"/>
+        <GoChevronDown size={22} />
       </div>
-      {isOpen && <div className="absolute z-10 w-full bg-white border ">{renderList}</div>}
+      {isOpen && (
+        <div className="absolute z-10 w-full bg-white border ">
+          {renderList}
+        </div>
+      )}
     </div>
   );
 }

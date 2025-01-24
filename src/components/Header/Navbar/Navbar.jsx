@@ -16,6 +16,11 @@ function Navbar({data}) {
       href: "/employee-list",
       active: useLocation().pathname === "/employee-list",
     },
+    {
+      label: "Add Employee",
+      href: "/create-employee",
+      active: useLocation().pathname === "/create-employee",
+    },
   ];
 
   return (
