@@ -14,11 +14,11 @@ function CreateEmployeeForm() {
   const [value, setValue] = useState({
     name: "",
     email: "",
-    telephone: "",
+    mobile: "",
     designation: "",
     gender: "",
     course: "",
-    url: "",
+    url: null,
   });
   const designationList = [
     { label: "HR" },
@@ -37,23 +37,39 @@ function CreateEmployeeForm() {
     setValue((prev) => ({ ...prev, [name]: selectedItem.label }));
   };
 
+  const handleFileChange = (event)=> {
+    const file = event.target.files[0];
+      setValue((prev) => ({ ...prev, url: file }));
+  }
+
   const handleSubmit = async (event) => {
-    setIsLoading(true);
     event.preventDefault();
+    setIsLoading(true);
+
+    const formData = new FormData();
+    formData.append("name",value.name);
+    formData.append("email",value.email);
+    formData.append("mobile",value.mobile);
+    formData.append("designation",value.designation);
+    formData.append("gender",value.gender);
+    formData.append("course",value.course);
+    formData.append("url",value.url);
+       
     try {
-      const response = await createEmployee(value);
-      if (response) {
+      const response = await createEmployee(formData);
+      
+      if (response.status) {
         toast.success("Add Successful", { autoClose: 2000 });
+        navigate("/employee-list");
       }
-      navigate("/employee-list");
       setValue({
         name: "",
         email: "",
-        telephone: "",
+        mobile: "",
         designation: "",
         gender: "",
         course: "",
-        url: "",
+        url: null,
       });
     } catch (error) {
       toast.error(err?.response?.data?.message);
@@ -87,10 +103,10 @@ function CreateEmployeeForm() {
           />
           <Input
             type="tel"
-            name="telephone"
+            name="mobile"
             placeholder="Phone Number"
             onChange={handleChange}
-            value={value.telephone}
+            value={value.mobile}
           />
           <div className="flex flex-col px-3 py-1 gap-y-4">
             <Accordion
@@ -117,7 +133,7 @@ function CreateEmployeeForm() {
               type="file"
               name="url"
               placeholder="Image"
-              onChange={handleChange}
+              onChange={handleFileChange}
               className=""
             />
             <p className="px-3 text-sm text-gray-400 ">

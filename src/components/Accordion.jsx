@@ -53,7 +53,7 @@ export default function Accordion({ name, list, onChange, placeholder }) {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center w-full px-2 text-lg border border-gray-300 rounded-md"
       >
-        <input placeholder={placeholder} value={select?.label} className="w-full py-1.5 bg-white outline-none"/>
+        <input placeholder={placeholder} value={select?.label || ''} readOnly className="w-full py-1.5 bg-white outline-none"/>
         <GoChevronDown size={22} />
       </div>
       {isOpen && (

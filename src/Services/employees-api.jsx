@@ -5,9 +5,14 @@ const baseURL =
 export const createEmployee = async (value = {}) => {
   const response = await axios.post(
     baseURL + "/employee/create",
-    value ,
+    value,
     {
       withCredentials: true,
+    },
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     }
   );
   return response;
@@ -21,13 +26,9 @@ export const getEmployeesList = async () => {
 };
 
 export const updateEmployee = async (id, value = {}) => {
-  const response = await axios.put(
-    baseURL + "/employee/" + id,
-    value ,
-    {
-      withCredentials: true,
-    }
-  );
+  const response = await axios.put(baseURL + "/employee/" + id, value, {
+    withCredentials: true,
+  });
   return response;
 };
 
