@@ -1,16 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import EmployeeListItem from "./EmployeeListItem/EmployeeListItem";
 import { deleteEmployee, getEmployeesList } from "../../Services/employees-api";
+import useLoadingContext from "../../hooks/use-LoadingContext";
+import useSharedDataContext from "../../hooks/use-SharedDataContext";
+import Button from "../Button/Button";
 
 function EmployeeList() {
+  const navigate = useNavigate();
+  const {isLoading, setIsLoading} = useLoadingContext();
+  const {setEmpData} = useSharedDataContext()
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const fetchData = useCallback(async () => {
-    setLoading(true);
+    setIsLoading(true);
     const list = await getEmployeesList();
-    setLoading(false);
+    setIsLoading(false);
     setData(list);
   }, []);
 
@@ -18,24 +24,38 @@ function EmployeeList() {
     fetchData();
   }, [fetchData]);
 
-  const handleClick = async (id) => {
+  const handleDeleteEmployee = async (id) => {
     await deleteEmployee(id);
     fetchData();
   };
 
-  const renderList = data.map((item) => (
-    <EmployeeListItem
-      key={item._id}
-      {...item}
-      onClick={() => handleClick(item._id)}
-    />
-  ));
+  const handleEditEmployee = (item) => {
+    setEmpData(item);
+     navigate("/update-employee");
+  };
+
+  const config = [
+    { label: "Image", render: (item) => <img src={item.url} className='w-20 h-20'/> },
+    { label: "Name", render: (item) => item.name },
+    { label: "Email_Id", render: (item) => item.email },
+    { label: "Phone no.", render: (item) => item.mobile },
+    { label: "Designation", render: (item) => item.designation },
+    { label: "Course", render: (item) => item.course },
+    { label: "Gender", render: (item) => item.gender },
+    { label: "Created_At", render: (item) => item.createdAt },
+    { label: "Action", render: (item)=> null, action: (item) => <th className="flex items-center justify-center">
+      <Button onClick={()=>handleEditEmployee(item)}>Edit</Button>
+      <Button onClick={()=>handleDeleteEmployee(item._id)}>Delete</Button>
+    </th>}
+  ];
+
+  const keyFn = (item) => {
+    return item._id;
+  }
 
   return (
-    <div className="flex justify-center h-full border border-black">
-      <div className="grid w-full h-full grid-cols-3 px-8 py-6 gap-y-16">
-        {loading ? "Loading..." : renderList}
-      </div>
+    <div className="h-screen border border-black">
+     {isLoading ? "Loading..." : <EmployeeListItem data={data} config={config} keyFn={keyFn}/>}
     </div>
   );
 }

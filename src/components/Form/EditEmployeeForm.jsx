@@ -5,21 +5,24 @@ import Input from "../Input/Input";
 import Button from "../Button/Button";
 import Accordion from "../Accordion";
 import Loading from "../Loading";
-import { createEmployee } from "../../Services/employees-api";
+import { updateEmployee } from "../../Services/employees-api";
 import useLoadingContext from "../../hooks/use-LoadingContext";
+import useSharedDataContext from "../../hooks/use-SharedDataContext";
 
-function CreateEmployeeForm() {
+function EditEmployeeForm() {
   const navigate = useNavigate();
   const { isLoading, setIsLoading } = useLoadingContext();
+  const {empData} = useSharedDataContext();
   const [value, setValue] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    designation: "",
-    gender: "",
-    course: "",
-    url: null,
+    name: empData.name,
+    email: empData.email,
+    mobile: empData.mobile,
+    designation: empData.designation,
+    gender: empData.gender,
+    course: empData.course,
+    url: empData.url,
   });
+
   const designationList = [
     { label: "HR" },
     { label: "Manager" },
@@ -56,10 +59,10 @@ function CreateEmployeeForm() {
     formData.append("url",value.url);
        
     try {
-      const response = await createEmployee(formData);
+      const response = await updateEmployee(empData._id,formData);
       
       if (response.status) {
-        toast.success("Add Successful", { autoClose: 2000 });
+        toast.success("update Successful", { autoClose: 2000 });
         navigate("/employee-list");
       }
       setValue({
@@ -83,7 +86,7 @@ function CreateEmployeeForm() {
       <div className="flex flex-col items-center justify-center w-4/12 px-4 h-5/6 gap-y-4">
         <div className="w-full px-2">
           <h1 className="px-3 text-3xl font-medium text-gray-500">
-            Add new employee details
+            update employee details
           </h1>
         </div>
         <form onSubmit={handleSubmit} className="w-full px-2 py-4 rounded-md ">
@@ -154,4 +157,4 @@ function CreateEmployeeForm() {
   );
 }
 
-export default CreateEmployeeForm;
+export default EditEmployeeForm;

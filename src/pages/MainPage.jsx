@@ -7,6 +7,7 @@ import EmployeeTab from "../components/Tab/EmployeeTab.jsx";
 import DashBoardTab from "../components/Tab/DashBoardTab.jsx";
 import CreateEmployeeForm from "../components/Form/CreateEmployeeForm.jsx";
 import { fetchAdmin } from "../Services/admin-api.jsx";
+import EditEmployeeForm from "../components/Form/EditEmployeeForm.jsx";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function MainPage() {
         <Route index element={<DashBoardTab />} />
         <Route path="/employee-list" element={<EmployeeTab />} />
         <Route path="/create-employee" element={<CreateEmployeeForm />} />
+        <Route path="/update-employee" element={<EditEmployeeForm />} />
       </Routes>
     </div>
   );

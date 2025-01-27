@@ -1,53 +1,35 @@
-import React from "react";
-import Button from "../../Button/Button.jsx";
-import { useNavigate } from "react-router-dom";
+import React, { Fragment } from "react";
 
-function EmployeeListItem({
-  _id,
-  name,
-  email,
-  mobile,
-  designation,
-  gender,
-  course,
-  url,
-  createdAt,
-  onClick,
-}) {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/create");
-  };
+export default function EmployeeListItem({ data, config, keyFn }) {
+  const renderedHeaders = config.map((column) => {
+    return <th key={column.label}>{column.label}</th>;
+  });
+
+  const renderedRow = data.map((item) => {
+    const renderedCells = config.map((column) => {
+      if (column.action) {
+        return <Fragment key={column.label}>{column.action(item)}</Fragment>;
+      }
+      
+      return (
+        <td className="p-2 " key={column.label}>
+          {column.render(item)}
+        </td>
+      );
+    });
+    return (
+      <tr className="border-b" key={keyFn(item)}>
+        {renderedCells}
+      </tr>
+    );
+  });
+
   return (
-    <div className="w-5/6 border shadow-md rounded-t-xl ">
-      <div className="flex items-center justify-center w-full">
-        <img src={url} className="rounded-t-lg " />
-      </div>
-      <div className="w-full px-4 py-4 font-medium text-gray-700">
-        <p>Name: {name}</p>
-        <p>Email: {email}</p>
-        <p>Mobile: {mobile}</p>
-        <p>Designation: {designation}</p>
-        <p>Gender: {gender}</p>
-        <p>Course: {course}</p>
-        <p>Created_At: {createdAt}</p>
-      </div>
-      <div className="flex w-full py-2 justify-evenly">
-        <Button
-          onClick={handleClick}
-          className="w-2/6 text-white bg-black rounded-md"
-        >
-          Edit
-        </Button>
-        <Button
-          onClick={onClick}
-          className="w-2/6 text-white bg-black rounded-md"
-        >
-          Delete
-        </Button>
-      </div>
-    </div>
+    <table className="table-auto border-spacing-2">
+      <thead>
+        <tr className="border-b-2">{renderedHeaders}</tr>
+      </thead>
+      <tbody>{renderedRow}</tbody>
+    </table>
   );
 }
-
-export default EmployeeListItem;
