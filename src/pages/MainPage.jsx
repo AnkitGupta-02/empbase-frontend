@@ -12,8 +12,10 @@ import EditEmployeeForm from "../components/Form/EditEmployeeForm.jsx";
 function MainPage() {
   const navigate = useNavigate();
   const [data, setData] = useState({});
+  const [loadingState, setLoadingState] = useState(false);
 
   const fetchData = useCallback(async () => {
+    setLoadingState(true);
     try {
       const admin = await fetchAdmin();
       setData(admin);
@@ -21,12 +23,22 @@ function MainPage() {
       if (err) {
         navigate("/login");
       }
+    } finally {
+      setLoadingState(false);
     }
   }, []);
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  if (loadingState) {
+    return (
+      <div className="w-screen h-screen text-4xl font-bold text-center text-white bg-black">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-full border">
