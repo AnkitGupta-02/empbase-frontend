@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import one from "../../assets/one.jpeg";
 
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -36,58 +37,52 @@ function LoginForm() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="flex items-center justify-center w-full bg-center bg-cover border border-blue-400 shadow-2xl bg-loginBG md:w-4/6 md:h-3/5 h-4/6 lg:w-2/5 h-sm:h-full rounded-2xl lg:h-3/5">
-        <div className="flex flex-col w-11/12 justify-evenly h-sm:h-5/6 h-xs:w-6/12 h-4/6 md:w-4/5 lg:h-3/5 backdrop-blur-md">
-          <div className="flex justify-center ">
-            <h1 className="w-11/12 px-2 py-1 text-4xl font-bold text-white lg:w-9/12">
-              Login
-            </h1>
+    <div className="flex flex-col w-full h-screen md:flex-row">
+      <div className="flex w-full w-md:w-[400px] lg:w-[512px] h-2/6 md:h-full">
+        <img src={one} className="object-cover w-full h-full" /> 
+      </div>
+      <div className="w-md:w-5/6 lg:w-[calc(100vw-512px)] flex md:justify-start justify-center items-center p-8">
+        <form onSubmit={handleSubmit}>
+          <div className="px-3 py-2">
+            <h2 className="text-2xl font-bold">Welcome back!</h2>
+            <p className="text-gray-600 ">Log in to access your account.</p>
           </div>
-          <form
-            onSubmit={handleSubmit}
-            className="flex items-center justify-center"
+          <Input
+            type="text"
+            name="username"
+            value={value.username}
+            onChange={handleChange}
+            placeholder="Enter your username"
+          />
+          <Input
+            type="password"
+            name="password"
+            value={value.password}
+            onChange={handleChange}
+            placeholder="Enter password"
+          />
+          <div className="flex items-center justify-between">
+            <label className="flex items-center">
+              <Input type="checkbox" className="w-4 h-4" />
+              <span>Remember me</span>
+            </label>
+            <Link className="pr-3 text-blue-500">Forget?</Link>
+          </div>
+          <Button
+            className={`text-lg border-none text-white rounded-md bg-[#2A2D34] flex items-center justify-center ${
+              isLoading ? "cursor-not-allowed" : ""
+            }`}
+            disabled={isLoading}
           >
-            <div className="w-11/12 lg:w-9/12">
-              <Input
-                type="text"
-                name="username"
-                value={value.username}
-                onChange={handleChange}
-                placeholder="Enter your username"
-              />
-
-              <Input
-                type="password"
-                name="password"
-                value={value.password}
-                onChange={handleChange}
-                placeholder="Enter password"
-              />
-              <div className="flex items-center justify-between text-white">
-                <div className="flex items-center justify-center ">
-                  <Input type="checkbox" className="" />
-                  <p>Remember me</p>
-                </div>
-                <Link className="pr-3">Forget?</Link>
-              </div>
-              <Button
-                className={`text-lg border-none text-white rounded-md bg-[#2A2D34] flex items-center justify-center ${
-                  isLoading ? "cursor-not-allowed" : ""
-                }`}
-                disabled={isLoading}
-              >
-                {isLoading ? <Loading /> : "LOGIN"}
-              </Button>
-              <div className="flex px-4 text-base font-semibold">
-                <h3 className="text-white">Don't have an account?</h3>
-                <Link to="/signup" className="text-blue-500 hover:underline">
-                  Sign up now
-                </Link>
-              </div>
-            </div>
-          </form>
-        </div>
+            {isLoading ? <Loading /> : "LOGIN"}
+          </Button>
+          <p className="flex px-4 text-base font-semibold">
+            Don't have an account?
+            <Link to="/signup" className="text-blue-500 hover:underline">
+              Sign up now
+            </Link>
+          </p>
+        </form>
       </div>
     </div>
   );

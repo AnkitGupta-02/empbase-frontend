@@ -34,7 +34,7 @@ function MainPage() {
 
   if (loadingState) {
     return (
-      <div className="w-screen h-screen text-4xl font-bold text-center text-white bg-black">
+      <div className="flex items-center justify-center w-screen h-screen text-4xl font-bold text-center bg-black">
         Loading...
       </div>
     );
